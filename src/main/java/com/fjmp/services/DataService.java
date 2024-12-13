@@ -3,8 +3,10 @@ package com.fjmp.services;
 import com.fjmp.entities.Quality;
 import com.fjmp.entities.User;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.security.enterprise.identitystore.Pbkdf2PasswordHash;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -14,9 +16,13 @@ public class DataService {
     @PersistenceContext(unitName = "PayarSecureWebApplication_unit")
     EntityManager em;
     
+    // to hash the password
+    @Inject
+    Pbkdf2PasswordHash passwordHasher;
+    
     @Transactional
     public User createUser(String name, String username, String password, String group) {
-        User newUser = new User(name, username, password, group);
+        User newUser = new User(name, username, passwordHasher.generate(password.toCharArray()), group);
         em.persist(newUser);
         em.flush();
         return newUser;
