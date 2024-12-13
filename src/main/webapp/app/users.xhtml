@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view>
+        <h:head>
+            <title>User information</title>
+        </h:head>
+        <h:body>
+            <h3>All users</h3>
+            <p:dataTable value="#{userController.allUsers}" var="user">
+                <p:column headerText="Id">
+                    <h:outputText value="#{user.id}"/>
+                </p:column>
+                <p:column headerText="Name">
+                    <h:outputText value="#{user.name}"/>
+                </p:column>
+                <p:column headerText="Username">
+                    <h:outputText value="#{user.username}"/>
+                </p:column>
+                <p:column headerText="group">
+                    <h:outputText value="#{user.group}"/>
+                </p:column>
+            </p:dataTable>
+        </h:body>
+    </f:view>
+</html>
