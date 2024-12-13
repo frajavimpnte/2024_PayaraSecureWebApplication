@@ -5,8 +5,13 @@ import com.fjmp.entities.User;
 import com.fjmp.services.DataService;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.context.ExternalContext;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.security.enterprise.SecurityContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,12 +21,19 @@ public class HomeController {
     @Inject
     DataService dataService;
     
+    @Inject
+    SecurityContext securityContext;
+    
+    @Inject
+    FacesContext facesContext;
+    
     private Optional<User> currentUser;
     private List<Quality> currentQualities;
     
     @PostConstruct
     public  void initialize() {
-        String username = "saddams";
+        String username = securityContext.getCallerPrincipal().getName();
+        
         this.currentUser = dataService.getUser(username);
         this.currentUser.ifPresent( user -> {
             this.currentQualities = dataService.getQualities(user);
@@ -36,5 +48,10 @@ public class HomeController {
         return currentQualities;
     }
     
-    
+    public String logout() throws ServletException {
+        ExternalContext ec = facesContext.getExternalContext();
+        ((HttpServletRequest)ec.getRequest()).logout();
+        return "/login.xhtml?faces-redirect=true";
+               
+    }
 }

@@ -38,6 +38,16 @@ public class LoginController {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+    
+    
     
     public void execute() throws IOException {
         switch(processAuthentication()) {
@@ -49,6 +59,7 @@ public class LoginController {
                 break;
             case SUCCESS:
                 getExternalContext().redirect(getExternalContext().getRequestContextPath() + "/app/index.xhtml");
+                break;
         }
     }
     
