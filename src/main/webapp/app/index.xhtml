@@ -13,13 +13,17 @@
             <p:panel>
                 <p:dataList value="#{homeController.currentQualities}" var="quality" type="ordered">
                     <f:facet name="header">
-                        #{homeController.currentUser.name}
+                        #{homeController.currentUser.name} is in "#{homeController.currentUser.group}" role
                     </f:facet>
                     #{quality.description}
                     <f:facet name="footer">
                         <h:form>
-                            <p:commandButton value="All Users" action="users?faces-redirect=true"/>
-                            <p:commandButton value="Logout" action="#{homeController.logout}"/>
+                            <h:panelGrid columns="2">
+                                <p:commandButton value="All Users" 
+                                                 rendered="#{homeController.currentUser.group == 'admin' ? 'true':'false'}" 
+                                                 action="users?faces-redirect=true"/>
+                                <p:commandButton value="Logout" action="#{homeController.logout}"/>
+                            </h:panelGrid>
                         </h:form>
                     </f:facet>
                 </p:dataList> 
