@@ -47,8 +47,6 @@ public class LoginController {
         return password;
     }
     
-    
-    
     public void execute() throws IOException {
         switch(processAuthentication()) {
             case SEND_CONTINUE:
@@ -58,6 +56,9 @@ public class LoginController {
                 facesContext.addMessage(null,  new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid Credentials", null));
                 break;
             case SUCCESS:
+                System.out.println("LoginController SUCSESS Principal:" + securityContext.getCallerPrincipal().getName()+ "-----------------");
+                System.out.println("LoginController SUCCESS isCallerInRole:user?" + securityContext.isCallerInRole("user"));
+                System.out.println("LoginController SUCCESS isCallerInRole:admin?" + securityContext.isCallerInRole("admin"));
                 getExternalContext().redirect(getExternalContext().getRequestContextPath() + "/app/index.xhtml");
                 break;
         }
